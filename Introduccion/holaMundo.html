@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Mi primera pagina Web con Javascript</title>
+    <!-- Forma #2 - Etiqueta script -->
+    <script defer> // Se agregar defer para que cargue hasta que ya cargo todo el resto del codigo
+        alert('Se ejecuta desde el head');
+    </script>
+
+    <!-- Forma #3 - Etiqueta script -->
+    <script defer src="./holaMundo.js"></script>
+
+</head>
+<body>
+    <h1>HOLA MUNDO</h1>
+    <!-- Forma #1 - Etiqueta script -->
+    <script>
+        // Notas importantes
+        // - Javascript es sensible a mayusculas y minusculas.
+        // - Respetar la sintaxis de tipo camel case. getElementById
+        // - Punto y coma al final de cada sentencia
+
+
+        // document.write('Hola Mundo!'); /* Esta instrucción lo que hace es escribir en el documento algo */
+        document.write('<h2>Hola Mundo!</h2>'); /* Tambien podemos agaregar etiquetas dentro de ese write */
+
+        /* Mostrar alertas */
+        alert('Hola soy una alerta');
+
+        /* Imprimir en consola */
+        console.log('Hola, desde la consola');
+
+    </script>
+</body>
+</html>
