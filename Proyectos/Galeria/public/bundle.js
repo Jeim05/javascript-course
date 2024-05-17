@@ -1,6 +1,6 @@
 'use strict';
 
-var data = {
+var dataFotos = {
 	fotos: {
 		america: [
 			{
@@ -431,7 +431,7 @@ var data = {
 	},
 };
 
-const { fotos } = data;
+const { fotos } = dataFotos;
 
 var dataCategorias = {
   categorias: [
@@ -477,16 +477,16 @@ var dataCategorias = {
 const { categorias } = dataCategorias; // Aqui puedo extraer directamente las categorias
 
 // En el archivo index.html tenemos un contenedor con ese id, por lo tanto hacemos la referencia de la siguiente manera
-const contenedorCategorias = document.getElementById("categorias");
+const contenedorCategorias$1 = document.getElementById("categorias");
 
 // Con el metodo forEach recorremos el arreglo para ejecutar una accion por cada categoria.
 categorias.forEach((categoria) => {
   // Para poder visualizar cada una de las categorias, se crea el elemento html. de la siguiente forma
   const nuevaCategoria = document.createElement("a"); // En los parametros se indica la etiqueta que qeremos crear
   const plantilla = `
-    <img class="categoria__img" src="${categoria.imagenPortada}" alt="" />
+  <img class="categoria__img" src="${categoria.imagenPortada}" alt="" />
 	<div class="categoria__datos">
-       <p class="categoria__nombre">${categoria.nombre}</p>
+    <p class="categoria__nombre">${categoria.nombre}</p>
 		<p class="categoria__numero-fotos">${categoria.numeroFotos} Fotos</p>
 	</div>
     `;
@@ -498,5 +498,37 @@ categorias.forEach((categoria) => {
 
   // Con lo que hemos echo arriba no lo hemos agregado al DOM, lo unico que hemos echo es definir la estructura
   // por lo tanto para agregarlo al DOM, lo hacemos de la siguiente manera
-  contenedorCategorias.append(nuevaCategoria);
+  contenedorCategorias$1.append(nuevaCategoria);
 });
+
+/* En este parte lo que hacemos es darle un evento a las categorias
+en este caso para ver más imagenes y información de cada uno de los continentes
+*/
+//Primero, accedemos al contenedor de las categorias
+const contenedorCategorias = document.getElementById("categorias");
+const galeria = document.getElementById("galeria");
+
+// Segundo agregamos el evento al elemento hijo de ese contenedor
+// Se recibo el evento y una función con el parametro de evento
+contenedorCategorias.addEventListener("click", (e) => {
+  e.preventDefault(); // Previene el comportamiento que tiene por defecto el navegador. Con esto ya no me va a enviar a la parte superior del navegador
+
+  if (e.target.closest("a")) {
+    galeria.classList.add("galeria--active"); // Se agrega la clase que activa la galeria
+    document.body.style.overflow = "hidden"; // Esto es para evitar que no se haga scroll, en la pagina de la galeria.
+
+    const categoriaActiva = e.target.dataset.categoria;
+    const fotos = dataFotos.fotos[categoriaActiva];
+
+    fotos.forEach((foto) => {
+      const slide = `
+        <a href="#" class="galeria__carousel-slide">
+            <img class="galeria__carousel-image" src="${foto.ruta}" alt="${foto.nombre}" />
+        </a>
+            `;
+      galeria.querySelector(".galeria__carousel-slides").innerHTML += slide; // Al trabajar con querySelector la clase lleva un . antes
+    });
+  }
+});
+//e.target; // El target es el objetivo al que le dimos click
+//e.target.closest('a') // Aqui le indicamos que solo busque las etiquteas a, en caso de dar click fuera de un a, devuelve null

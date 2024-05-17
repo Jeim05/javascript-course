@@ -9,9 +9,9 @@ categorias.forEach((categoria) => {
   // Para poder visualizar cada una de las categorias, se crea el elemento html. de la siguiente forma
   const nuevaCategoria = document.createElement("a"); // En los parametros se indica la etiqueta que qeremos crear
   const plantilla = `
-    <img class="categoria__img" src="${categoria.imagenPortada}" alt="" />
+  <img class="categoria__img" src="${categoria.imagenPortada}" alt="" />
 	<div class="categoria__datos">
-       <p class="categoria__nombre">${categoria.nombre}</p>
+    <p class="categoria__nombre">${categoria.nombre}</p>
 		<p class="categoria__numero-fotos">${categoria.numeroFotos} Fotos</p>
 	</div>
     `;
