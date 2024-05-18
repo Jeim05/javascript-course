@@ -501,12 +501,22 @@ categorias.forEach((categoria) => {
   contenedorCategorias$1.append(nuevaCategoria);
 });
 
+const galeria$3 = document.getElementById("galeria"); // Accedemos a la galeria
+
+const cargarImagen = (id, nombre, ruta, descripcion) => {
+  galeria$3.querySelector(".galeria__imagen").src = ruta; // Dentro de la galeria voy a buscar la imagen activa
+  galeria$3.querySelector(".galeria__imagen").dataset.idImagen = id; // Accedemos a un atributo personalizado
+  galeria$3.querySelector(".galeria__titulo").innerText = nombre; // Aqui vamos a asignar el titulo de la galeria, en el h3
+  galeria$3.querySelector(".galeria__descripcion-imagen-activa").innerText =
+    descripcion; // Aqui vamos a poner la descripción de la imagen
+};
+
 /* En este parte lo que hacemos es darle un evento a las categorias
 en este caso para ver más imagenes y información de cada uno de los continentes
 */
 //Primero, accedemos al contenedor de las categorias
 const contenedorCategorias = document.getElementById("categorias");
-const galeria = document.getElementById("galeria");
+const galeria$2 = document.getElementById("galeria");
 
 // Segundo agregamos el evento al elemento hijo de ese contenedor
 // Se recibo el evento y una función con el parametro de evento
@@ -514,21 +524,57 @@ contenedorCategorias.addEventListener("click", (e) => {
   e.preventDefault(); // Previene el comportamiento que tiene por defecto el navegador. Con esto ya no me va a enviar a la parte superior del navegador
 
   if (e.target.closest("a")) {
-    galeria.classList.add("galeria--active"); // Se agrega la clase que activa la galeria
+    galeria$2.classList.add("galeria--active"); // Se agrega la clase que activa la galeria
     document.body.style.overflow = "hidden"; // Esto es para evitar que no se haga scroll, en la pagina de la galeria.
 
-    const categoriaActiva = e.target.dataset.categoria;
+    const categoriaActiva = e.target.closest("a").dataset.categoria; // Aqui, agregamos closest() para evitar que si damos en el texto de la imagen, genere un problema en el slide
+    galeria$2.dataset.categoria = categoriaActiva; // Esto lo hacemos para poder cambiar de imagen en el slide. Lo que hacemos es crear un atributo personalizado
+
     const fotos = dataFotos.fotos[categoriaActiva];
+    const carousel = galeria$2.querySelector(".galeria__carousel-slides"); // Se busca el elemento del carousel
+    
+    const {id, nombre, ruta, descripcion} = fotos[0];
+    // Despues de cargar la galeria voy a cargar la imagen activa
+    cargarImagen(id, nombre, ruta, descripcion);
+
+    carousel.innerHTML = ""; // Antes de cargar las fotos, accedemos al carousel al HTML interno y lo dejamos vacio, para cargar las otras imagenes
 
     fotos.forEach((foto) => {
       const slide = `
         <a href="#" class="galeria__carousel-slide">
-            <img class="galeria__carousel-image" src="${foto.ruta}" alt="${foto.nombre}" />
+            <img class="galeria__carousel-image" src="${foto.ruta}" data-id="${foto.id}" alt="${foto.nombre}" />
         </a>
             `;
-      galeria.querySelector(".galeria__carousel-slides").innerHTML += slide; // Al trabajar con querySelector la clase lleva un . antes
+      galeria$2.querySelector(".galeria__carousel-slides").innerHTML += slide; // Al trabajar con querySelector la clase lleva un . antes
     });
+
+    galeria$2
+      .querySelector(".galeria__carousel-slide")
+      .classList.add("galeria__carousel-slide--active");
   }
 });
 //e.target; // El target es el objetivo al que le dimos click
 //e.target.closest('a') // Aqui le indicamos que solo busque las etiquteas a, en caso de dar click fuera de un a, devuelve null
+
+const galeria$1 = document.getElementById("galeria");
+
+const cerrarGaleria = () => {
+  galeria$1.classList.remove("galeria--active");
+  document.body.style.overflow = "";
+};
+
+const galeria = document.getElementById("galeria");
+galeria.addEventListener("click", (e) => {
+  const boton = e.target.closest("button");
+
+  // - - - CERRAR GALERIA
+  /* Añadimos en el if el signo de interrogacion porque si se da click en un elemento diferente de boton no arroge 
+   un error, luego cuando se hace la verificacion de que no es boton se hace la comparación con el data-set que le 
+   asigmanos al boton de cerrar galeria.*/
+  if (boton?.dataset.accion == "cerrar-galeria") {
+    cerrarGaleria();
+  }
+
+  // - - - CAROUSEL SLIDE CLICK
+  if (e.target.dataset.id) ;
+});
