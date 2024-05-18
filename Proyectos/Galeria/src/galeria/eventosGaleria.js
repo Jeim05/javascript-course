@@ -1,4 +1,5 @@
 import cerrarGaleria from "./cerrarGaleria";
+import slideClick from "./slideClick";
 
 const galeria = document.getElementById("galeria");
 galeria.addEventListener("click", (e) => {
@@ -14,6 +15,6 @@ galeria.addEventListener("click", (e) => {
 
   // - - - CAROUSEL SLIDE CLICK
   if (e.target.dataset.id) { // Hacemos el condicional, para que en caso que se de click fuera de una imagen del slide, no de un error.
-    
+    slideClick(e);
   }
 });

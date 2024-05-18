@@ -1,6 +1,6 @@
 'use strict';
 
-var dataFotos = {
+var datos = {
 	fotos: {
 		america: [
 			{
@@ -431,7 +431,7 @@ var dataFotos = {
 	},
 };
 
-const { fotos } = dataFotos;
+const { fotos } = datos;
 
 var dataCategorias = {
   categorias: [
@@ -530,7 +530,7 @@ contenedorCategorias.addEventListener("click", (e) => {
     const categoriaActiva = e.target.closest("a").dataset.categoria; // Aqui, agregamos closest() para evitar que si damos en el texto de la imagen, genere un problema en el slide
     galeria$2.dataset.categoria = categoriaActiva; // Esto lo hacemos para poder cambiar de imagen en el slide. Lo que hacemos es crear un atributo personalizado
 
-    const fotos = dataFotos.fotos[categoriaActiva];
+    const fotos = datos.fotos[categoriaActiva];
     const carousel = galeria$2.querySelector(".galeria__carousel-slides"); // Se busca el elemento del carousel
     
     const {id, nombre, ruta, descripcion} = fotos[0];
@@ -563,6 +563,26 @@ const cerrarGaleria = () => {
   document.body.style.overflow = "";
 };
 
+// En esta funcion lo que hacemos es que al hacer click sobre cualquier imagen del slide dentro de las categorias
+// pse abra la imagen en grande con su respectiva información
+const slideClick = (e) => {
+  let ruta, nombre, descripcion; // datos necesarios para hacer la busqueda de la imagen
+
+  const id = parseInt(e.target.dataset.id); // Convertimos el id del dataset en un entero, ya que este viene como texto y el id de la imagen es un numero
+  const galeria = document.getElementById("galeria"); // se recupera el contenedor de la galeria, para hacer las referencias
+  const categoriaActiva = galeria.dataset.categoria; // se obtiene la categoria de la galeria donde entramos. 
+
+  datos.fotos[categoriaActiva].forEach((foto) => { // Se hace un recorrido de todas las fotos en la categoria seleccionada
+    if (foto.id === id) { // para luego hacer la comparación de la imagen a la que hicimos click por medio del id
+      ruta = foto.ruta; // se asignan los datos recuperados a cada variable
+      nombre = foto.nombre;
+      descripcion = foto.descripcion;
+    }
+  });
+
+  cargarImagen(id, nombre, ruta, descripcion); // Se carga la imagen seleccionada en grande. Esta funcion se reutiliza
+};
+
 const galeria = document.getElementById("galeria");
 galeria.addEventListener("click", (e) => {
   const boton = e.target.closest("button");
@@ -576,5 +596,7 @@ galeria.addEventListener("click", (e) => {
   }
 
   // - - - CAROUSEL SLIDE CLICK
-  if (e.target.dataset.id) ;
+  if (e.target.dataset.id) { // Hacemos el condicional, para que en caso que se de click fuera de una imagen del slide, no de un error.
+    slideClick(e);
+  }
 });
