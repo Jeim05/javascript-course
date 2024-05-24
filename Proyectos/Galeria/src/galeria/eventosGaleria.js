@@ -1,5 +1,6 @@
 import cerrarGaleria from "./cerrarGaleria";
 import slideClick from "./slideClick";
+import { cargarAnteriorSiguiente } from "./cargarImagen";
 
 const galeria = document.getElementById("galeria");
 galeria.addEventListener("click", (e) => {
@@ -17,4 +18,15 @@ galeria.addEventListener("click", (e) => {
   if (e.target.dataset.id) { // Hacemos el condicional, para que en caso que se de click fuera de una imagen del slide, no de un error.
     slideClick(e);
   }
+
+  // - - - SIGUIENTE IMAGEN
+  if (boton?.dataset?.accion === 'siguiente-imagen') { // comprobamos primero si hay un boton y luego si tiene un dataset y luego si tiene una accion
+    cargarAnteriorSiguiente('siguiente');
+  }
+
+  // - - - ANTERIOR IMAGEN
+  if (boton?.dataset?.accion === 'anterior-imagen') { // comprobamos primero si hay un boton y luego si tiene un dataset y luego si tiene una accion
+    cargarAnteriorSiguiente('anterior');
+  }
+
 });

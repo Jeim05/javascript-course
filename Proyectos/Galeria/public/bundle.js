@@ -509,6 +509,48 @@ const cargarImagen = (id, nombre, ruta, descripcion) => {
   galeria$3.querySelector(".galeria__titulo").innerText = nombre; // Aqui vamos a asignar el titulo de la galeria, en el h3
   galeria$3.querySelector(".galeria__descripcion-imagen-activa").innerText =
     descripcion; // Aqui vamos a poner la descripción de la imagen
+
+  const categoriaActual = galeria$3.dataset.categoria;
+  const fotos = datos.fotos[categoriaActual]; // Accedemos a la categoria dentro de la data. Se busque por medio de
+  //la categoria actual que viene desde el dataset
+
+  // Por cada foto vamos a acceder a la informacion
+  let indexImagenActual; // Definimos esta variable para acceder a la posición de la foto
+  fotos.forEach((foto, index) => {
+    if (foto.id === id) {
+      indexImagenActual = index; // Se asigna el index a la variable creada
+    }
+  });
+
+  // MARCAMOS LA IMAGEN DEL CAROUSEL COMO ACTIVA
+  if (galeria$3.querySelectorAll(".galeria__carousel-slide").length > 0) {
+    // Se hace la validacion para evitar que de un error a la hora de cargar el slide por primera vez
+
+    // ELIMINAMOS LA CLASE ACTIVE DE CUALQUIER SLIDE
+    galeria$3
+      .querySelector(".galeria__carousel-slide--active")
+      .classList.remove("galeria__carousel-slide--active");
+
+    /* Busca dentro de la galeria la imagen especificada y se le asigna la clase que tiene el borde, 
+    para que cambie cuando se seleccione*/
+    galeria$3
+      .querySelectorAll(".galeria__carousel-slide")
+      [indexImagenActual].classList.add("galeria__carousel-slide--active");
+  }
+};
+
+// CREAMOS UNA FUNCION PARA CARGAR LA ANTERIOR O SIGUIENTE IMAGEN
+const cargarAnteriorSiguiente = (direccion) => {
+  const categoriaActual = galeria$3.dataset.categoria;
+  const fotos = datos.fotos[categoriaActual];
+
+  // Accedemos al id de la imagen que esta abierta en ese momento
+  const idImagenActual = parseInt(
+    galeria$3.querySelector(".galeria__imagen").dataset.idImagen
+  );
+  fotos.forEach((foto, index) => {
+    if (foto.id === idImagenActual) ;
+  });
 };
 
 /* En este parte lo que hacemos es darle un evento a las categorias
@@ -599,4 +641,15 @@ galeria.addEventListener("click", (e) => {
   if (e.target.dataset.id) { // Hacemos el condicional, para que en caso que se de click fuera de una imagen del slide, no de un error.
     slideClick(e);
   }
+
+  // - - - SIGUIENTE IMAGEN
+  if (boton?.dataset?.accion === 'siguiente-imagen') { // comprobamos primero si hay un boton y luego si tiene un dataset y luego si tiene una accion
+    cargarAnteriorSiguiente();
+  }
+
+  // - - - ANTERIOR IMAGEN
+  if (boton?.dataset?.accion === 'anterior-imagen') { // comprobamos primero si hay un boton y luego si tiene un dataset y luego si tiene una accion
+    cargarAnteriorSiguiente();
+  }
+
 });
