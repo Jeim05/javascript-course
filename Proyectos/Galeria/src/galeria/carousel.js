@@ -55,9 +55,8 @@ const carousel = (direccion) => {
 
 export default carousel;
 
-
 // FUNCIONALIDADES ADICIONALES A AGREGAR
-/*  
-* Agregar una funcionalidad para que cuando no haya más slides hacia adelante, la flecha se oculte lo mismo para el de atras 
+/*
+ * Agregar una funcionalidad para que cuando no haya más slides hacia adelante, la flecha se oculte lo mismo para el de atras
  * Tambien agregar esa funcionalidad en el boton de siguiente y atras de cada imagen grande
  *  */
