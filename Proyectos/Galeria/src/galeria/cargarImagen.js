@@ -57,8 +57,15 @@ const cargarAnteriorSiguiente = (direccion) => {
   });
 
   if (direccion == "siguiente") {
+    if (fotos[indexImagenActual + 1]) {
+      const { id, nombre, ruta, descripcion } = fotos[indexImagenActual + 1];
+      cargarImagen(id, nombre, ruta, descripcion);
+    }
   } else if (direccion === "anterior") {
-  } else {
+    if (fotos[indexImagenActual - 1]) {
+      const { id, nombre, ruta, descripcion } = fotos[indexImagenActual - 1];
+      cargarImagen(id, nombre, ruta, descripcion);
+    }
   }
 };
 
