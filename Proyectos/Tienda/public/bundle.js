@@ -1,16 +1,16 @@
 'use strict';
 
-const producto = document.getElementById("producto");
-const productoImgen = producto.querySelector(".producto__imagen"); // Dentro de la seccion de producto accedemos al contenedor de las imagenes
-const thumbs = producto.querySelector(".producto__thumbs");
+const producto$1 = document.getElementById("producto");
+const productoImgen = producto$1.querySelector(".producto__imagen"); // Dentro de la seccion de producto accedemos al contenedor de las imagenes
+const thumbs = producto$1.querySelector(".producto__thumbs");
 
 // Color
-const propiedadColor = producto.querySelector("#propiedad-color");
+const propiedadColor = producto$1.querySelector("#propiedad-color");
 
 // Cantidad
-const btnDisminuirCantidad = producto.querySelector("#disminuir-cantidad");
-const btnIncrementarCantidad = producto.querySelector("#incrementar-cantidad");
-const inputCantidad = producto.querySelector("#cantidad");
+const btnDisminuirCantidad = producto$1.querySelector("#disminuir-cantidad");
+const btnIncrementarCantidad = producto$1.querySelector("#incrementar-cantidad");
+const inputCantidad = producto$1.querySelector("#cantidad");
 
 // Funcionalidad de las thumbnails
 thumbs.addEventListener("click", (e) => {
@@ -44,4 +44,41 @@ btnDisminuirCantidad.addEventListener("click", (e) => {
   if (parseInt(inputCantidad.value) > 1) {
     inputCantidad.value = parseInt(inputCantidad.value) - 1;
   }
+});
+
+// Accedemos a los botones que me permiten abrir el carrito
+const botonesAbrirCarrito = document.querySelectorAll('[data-accion="abrir-carrito"]');
+const botonesCerrarCarrito = document.querySelectorAll('[data-accion="cerrar-carrito"]');
+const ventanaCarrito = document.getElementById("carrito");
+const btnAgregarCarrito = document.getElementById('agregar-al-carrito');
+const producto = document.getElementById('producto');
+
+const renderCarrito = () => {
+  // PARA ABRIR LA VENTA
+  ventanaCarrito.classList.add("carrito--active");
+};
+
+// Abrir carrito
+botonesAbrirCarrito.forEach((boton) => {
+  boton.addEventListener("click", (e) => {
+    renderCarrito();
+  });
+});
+
+// Cerrar carrito
+botonesCerrarCarrito.forEach((boton) => {
+  boton.addEventListener("click", (e) => {
+    ventanaCarrito.classList.remove("carrito--active");
+  });
+});
+
+// Agregar productos al carrito
+btnAgregarCarrito.addEventListener('click', (e) => {
+  producto.dataset.productoId;
+  producto.querySelector('.producto__nombre').innerText;
+  parseInt(producto.querySelector('#cantidad').value);
+  producto.querySelector('#propiedad-color input:checked').value;
+  producto.querySelector('#propiedad-tamaño input:checked').value;
+
+  
 });
