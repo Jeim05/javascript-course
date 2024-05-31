@@ -62,11 +62,24 @@ const renderCarrito = () => {
   // PARA ABRIR LA VENTA
   ventanaCarrito.classList.add("carrito--active");
 
+  // Se eliminan los productos anteriores para construir el carrito desde cero
+  const productosAnteriores = ventanaCarrito.querySelectorAll('.carrito__producto');
+  productosAnteriores.forEach(producto => {producto.remove();});
+
+  // Iteramos por el carrito para mostrar los productos
   carrito.forEach((productoCarrito) => {
+    // Variable para obtener la ruta de la imagen
+    let thumbSrc = producto.querySelectorAll(".producto__thumb-img")[0].src;
+    if (productoCarrito.color === "rojo") {
+      thumbSrc = "./img/thumbs/rojo.jpg";
+    } else if (productoCarrito.color === "amarillo") {
+      thumbSrc = "./img/thumbs/amarillo.jpg";
+    }
+
     // Creamos una plantilla del codigo HTML
     const plantillaProducto = `
   <div class="carrito__producto-info">
-    <img src="./img/tennis/1.jpg" alt="" class="carrito__thumb" />
+    <img src="${thumbSrc}" alt="" class="carrito__thumb" />
     <div>
       <p class="carrito__producto-nombre">
         <span class="carrito__producto-cantidad">${productoCarrito.cantidad} x </span>${productoCarrito.nombre}
@@ -102,7 +115,7 @@ const renderCarrito = () => {
     itemCarrito.innerHTML = plantillaProducto;
 
     // Agregamos el producto a la ventana del carrito
-    ventanaCarrito.querySelector('.carrito__body').appendChild(itemCarrito);
+    ventanaCarrito.querySelector(".carrito__body").appendChild(itemCarrito);
   });
 };
 
