@@ -46,6 +46,28 @@ btnDisminuirCantidad.addEventListener("click", (e) => {
   }
 });
 
+var data = {
+  productos: [
+    {
+      id: "1",
+      nombre: "Tennis Converse Standard",
+      descripcion: "Lorem ipsum dolor sit amet.",
+      precio: 500.0,
+      colores: ["negro", "rojo", "amarillo"],
+      tamanos: ["5", "6", "7", "8", "9"],
+    },
+    {
+        id: "2",
+        nombre: "Tennis Converse 2000",
+        descripcion: "Lorem ipsum dolor sit amet.",
+        precio: 250.0,
+        colores: ["negro", "rojo", "amarillo"],
+        tamanos: ["5", "6", "7", "8", "9"],
+      },
+  ],
+  
+};
+
 // Accedemos a los botones que me permiten abrir el carrito
 const botonesAbrirCarrito = document.querySelectorAll(
   '[data-accion="abrir-carrito"]'
@@ -56,18 +78,33 @@ const botonesCerrarCarrito = document.querySelectorAll(
 const ventanaCarrito = document.getElementById("carrito");
 const btnAgregarCarrito = document.getElementById("agregar-al-carrito");
 const producto = document.getElementById("producto");
-const carrito = [];
+let carrito = [];
+const formatearMoneda = new Intl.NumberFormat("es-CR", {
+  style: "currency",
+  currency: "CRC",
+});
 
 const renderCarrito = () => {
   // PARA ABRIR LA VENTA
   ventanaCarrito.classList.add("carrito--active");
 
   // Se eliminan los productos anteriores para construir el carrito desde cero
-  const productosAnteriores = ventanaCarrito.querySelectorAll('.carrito__producto');
-  productosAnteriores.forEach(producto => {producto.remove();});
+  const productosAnteriores =
+    ventanaCarrito.querySelectorAll(".carrito__producto");
+  productosAnteriores.forEach((producto) => {
+    producto.remove();
+  });
 
   // Iteramos por el carrito para mostrar los productos
   carrito.forEach((productoCarrito) => {
+    // Obtenemos el precio del archivo de producto.js
+    // Cuando el id del item del carrito sea el mismo de la lista
+    data.productos.forEach((productoBaseDatos) => {
+      if (productoBaseDatos.id === productoCarrito.id) {
+        productoCarrito.precio = productoBaseDatos.precio;
+      }
+    });
+
     // Variable para obtener la ruta de la imagen
     let thumbSrc = producto.querySelectorAll(".producto__thumb-img")[0].src;
     if (productoCarrito.color === "rojo") {
@@ -82,10 +119,14 @@ const renderCarrito = () => {
     <img src="${thumbSrc}" alt="" class="carrito__thumb" />
     <div>
       <p class="carrito__producto-nombre">
-        <span class="carrito__producto-cantidad">${productoCarrito.cantidad} x </span>${productoCarrito.nombre}
+        <span class="carrito__producto-cantidad">${
+          productoCarrito.cantidad
+        } x </span>${productoCarrito.nombre}
       </p>
       <p class="carrito__producto-propiedades">
-        Tamaño:<span>${productoCarrito.tamano}</span> Color:<span>${productoCarrito.color}</span>
+        Tamaño:<span>${productoCarrito.tamano}</span> Color:<span>${
+      productoCarrito.color
+    }</span>
       </p>
     </div>
   </div>
@@ -103,7 +144,9 @@ const renderCarrito = () => {
         />
       </svg>
     </button>
-    <p class="carrito__producto-precio">$500.00</p>
+    <p class="carrito__producto-precio">${formatearMoneda.format(
+      productoCarrito.precio * productoCarrito.cantidad
+    )}</p>
   </div>
     `;
 
@@ -143,11 +186,55 @@ btnAgregarCarrito.addEventListener("click", (e) => {
     "#propiedad-tamaño input:checked"
   ).value;
 
-  carrito.push({
-    id: id,
-    nombre: nombre,
-    cantidad: cantidad,
-    color: color,
-    tamano: tamano,
-  });
+  if (carrito.length > 0) {
+    let productoCarrito = false;
+
+    carrito.forEach((item) => {
+      if (
+        item.id === id &&
+        item.nombre === nombre &&
+        item.color === color &&
+        item.tamano === tamano
+      ) {
+        item.cantidad += cantidad;
+        productoCarrito = true;
+      }
+    });
+    if (!productoCarrito) {
+      carrito.push({
+        id: id,
+        nombre: nombre,
+        cantidad: cantidad,
+        color: color,
+        tamano: tamano,
+      });
+    }
+  } else {
+    carrito.push({
+      id: id,
+      nombre: nombre,
+      cantidad: cantidad,
+      color: color,
+      tamano: tamano,
+    });
+  }
+});
+
+// Botones eliminar producto del carrito
+ventanaCarrito.addEventListener("click", (e) => {
+  if (e.target.closest("button")?.dataset.accion === "eliminar-item-carrito") {
+    const producto = e.target.closest(".carrito__producto");
+    // Usamos los corchetes para decir que agrupe todos los elementos en una lista y no en un nodo
+    const indexProducto = [
+      ...ventanaCarrito.querySelectorAll(".carrito__producto"),
+    ].indexOf(producto);
+
+    carrito = carrito.filter((item, index) => {
+      if (index !== indexProducto) {
+        return item;
+      }
+    });
+
+    renderCarrito();
+  }
 });
