@@ -52,17 +52,17 @@ var data = {
       id: "1",
       nombre: "Tennis Converse Standard",
       descripcion: "Lorem ipsum dolor sit amet.",
-      precio: 500.0,
+      precio: 35500.0,
       colores: ["negro", "rojo", "amarillo"],
-      tamanos: ["5", "6", "7", "8", "9"],
+      tamanos: ["35", "36", "37", "38", "39","40"],
     },
     {
         id: "2",
         nombre: "Tennis Converse 2000",
         descripcion: "Lorem ipsum dolor sit amet.",
-        precio: 250.0,
+        precio: 22500.0,
         colores: ["negro", "rojo", "amarillo"],
-        tamanos: ["5", "6", "7", "8", "9"],
+        tamanos: ["35", "36", "37", "38", "39"],
       },
   ],
   
@@ -83,6 +83,7 @@ const formatearMoneda = new Intl.NumberFormat("es-CR", {
   style: "currency",
   currency: "CRC",
 });
+const notificacion = document.getElementById('notificacion');
 
 const renderCarrito = () => {
   // PARA ABRIR LA VENTA
@@ -95,71 +96,84 @@ const renderCarrito = () => {
     producto.remove();
   });
 
-  // Iteramos por el carrito para mostrar los productos
-  carrito.forEach((productoCarrito) => {
-    // Obtenemos el precio del archivo de producto.js
-    // Cuando el id del item del carrito sea el mismo de la lista
-    data.productos.forEach((productoBaseDatos) => {
-      if (productoBaseDatos.id === productoCarrito.id) {
-        productoCarrito.precio = productoBaseDatos.precio;
+  let total = 0;
+
+  // Comprobamos si hay productos
+  if (carrito.length < 1) {
+    // Ponemos la clase de carrito vacio
+    ventanaCarrito.classList.add("carrito--vacio");
+  } else {
+    // Iteramos por el carrito para mostrar los productos
+    carrito.forEach((productoCarrito) => {
+      // Obtenemos el precio del archivo de producto.js
+      // Cuando el id del item del carrito sea el mismo de la lista
+      data.productos.forEach((productoBaseDatos) => {
+        if (productoBaseDatos.id === productoCarrito.id) {
+          productoCarrito.precio = productoBaseDatos.precio;
+
+          total += productoBaseDatos.precio * productoCarrito.cantidad;
+        }
+      });
+
+      // Variable para obtener la ruta de la imagen
+      let thumbSrc = producto.querySelectorAll(".producto__thumb-img")[0].src;
+      if (productoCarrito.color === "rojo") {
+        thumbSrc = "./img/thumbs/rojo.jpg";
+      } else if (productoCarrito.color === "amarillo") {
+        thumbSrc = "./img/thumbs/amarillo.jpg";
       }
-    });
 
-    // Variable para obtener la ruta de la imagen
-    let thumbSrc = producto.querySelectorAll(".producto__thumb-img")[0].src;
-    if (productoCarrito.color === "rojo") {
-      thumbSrc = "./img/thumbs/rojo.jpg";
-    } else if (productoCarrito.color === "amarillo") {
-      thumbSrc = "./img/thumbs/amarillo.jpg";
-    }
-
-    // Creamos una plantilla del codigo HTML
-    const plantillaProducto = `
-  <div class="carrito__producto-info">
-    <img src="${thumbSrc}" alt="" class="carrito__thumb" />
-    <div>
-      <p class="carrito__producto-nombre">
-        <span class="carrito__producto-cantidad">${
-          productoCarrito.cantidad
-        } x </span>${productoCarrito.nombre}
-      </p>
-      <p class="carrito__producto-propiedades">
-        Tamaño:<span>${productoCarrito.tamano}</span> Color:<span>${
-      productoCarrito.color
-    }</span>
-      </p>
+      // Creamos una plantilla del codigo HTML
+      const plantillaProducto = `
+    <div class="carrito__producto-info">
+      <img src="${thumbSrc}" alt="" class="carrito__thumb" />
+      <div>
+        <p class="carrito__producto-nombre">
+          <span class="carrito__producto-cantidad">${
+            productoCarrito.cantidad
+          } x </span>${productoCarrito.nombre}
+        </p>
+        <p class="carrito__producto-propiedades">
+          Tamaño:<span>${productoCarrito.tamano}</span> Color:<span>${
+        productoCarrito.color
+      }</span>
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="carrito__producto-contenedor-precio">
-    <button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
-        />
-      </svg>
-    </button>
-    <p class="carrito__producto-precio">${formatearMoneda.format(
-      productoCarrito.precio * productoCarrito.cantidad
-    )}</p>
-  </div>
-    `;
+    <div class="carrito__producto-contenedor-precio">
+      <button class="carrito__btn-eliminar-item" data-accion="eliminar-item-carrito">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"
+          />
+        </svg>
+      </button>
+      <p class="carrito__producto-precio">${formatearMoneda.format(
+        productoCarrito.precio * productoCarrito.cantidad
+      )}</p>
+    </div>
+      `;
 
-    const itemCarrito = document.createElement("div");
+      const itemCarrito = document.createElement("div");
 
-    // Le agregamos a la clase de carrito__producto
-    itemCarrito.classList.add("carrito__producto");
+      // Le agregamos a la clase de carrito__producto
+      itemCarrito.classList.add("carrito__producto");
 
-    itemCarrito.innerHTML = plantillaProducto;
+      itemCarrito.innerHTML = plantillaProducto;
 
-    // Agregamos el producto a la ventana del carrito
-    ventanaCarrito.querySelector(".carrito__body").appendChild(itemCarrito);
-  });
+      // Agregamos el producto a la ventana del carrito
+      ventanaCarrito.querySelector(".carrito__body").appendChild(itemCarrito);
+    });
+    ventanaCarrito.classList.remove("carrito--vacio");
+  }
+
+  ventanaCarrito.querySelector(".carrito__total").innerText = formatearMoneda.format(total);
 };
 
 // Abrir carrito
@@ -218,6 +232,21 @@ btnAgregarCarrito.addEventListener("click", (e) => {
       tamano: tamano,
     });
   }
+
+  // Establecemos la ruta de la imagen  que vamos a mostrar
+  let thumbSrc = producto.querySelectorAll('.producto__thumb-img')[0].src;
+  if (color === 'rojo') {
+    thumbSrc = './img/thumbs/rojo.jpg';
+  }else if (color === 'amarillo') {
+    thumbSrc = './img/thumbs/amarillo.jpg';
+  }
+
+  notificacion.querySelector('img').src = thumbSrc;
+  // Mostramos la notificacion
+  notificacion.classList.add('notificacion--active');
+
+  // Despues de 5 seg ocultamos la notificacion
+  setTimeout(() => notificacion.classList.remove('notificacion--active'), 5000);
 });
 
 // Botones eliminar producto del carrito
@@ -238,3 +267,44 @@ ventanaCarrito.addEventListener("click", (e) => {
     renderCarrito();
   }
 });
+
+// Boton de enviar carrito
+ventanaCarrito.querySelector('#carrito__btn-comprar').addEventListener('click',() =>{
+  console.log('Enviando peticion de compra');
+  console.log(carrito);
+});
+
+class Tabs {
+  constructor(idElemento) {
+    this.tabs = document.getElementById(idElemento);
+    this.nav = this.tabs.querySelector('.tabs');
+
+    this.nav.addEventListener('click', (e)=>{
+      // Comprobamos que el elemento que clickeamos tenga la clase de tabs__link
+      if ([...e.target.classList].includes('tabs__button') ) {
+        // Obtenemos la tab que queremos mostrar
+        const tab = e.target.dataset.tab;
+        
+        // Hacemos el condicional para acceder a la clase activa y despues eliminarla
+        if (this.tabs.querySelector('.tab--active')) {
+          this.tabs.querySelector('.tab--active').classList.remove('tab--active');
+        }
+
+        // Quitamos la clase activa de la tab anterior 
+        if (this.tabs.querySelector('.tabs__button--active')) {
+          this.tabs.querySelector('.tabs__button--active').classList.remove('tabs__button--active');
+        }
+
+        // Buscamos cual de los elementos tiene la tabs que queremos buscar
+        // Y agregamos la clase activa al tab
+        this.tabs.querySelector(`#${tab}`).classList.add('tab--active');
+
+        // Agregamos la clase activa al boton
+        e.target.classList.add('tabs__button--active');
+      }
+    } );
+  }
+}
+
+// Hacemos una instancia para que se ejecute la clase
+new Tabs('mas-informacion');
