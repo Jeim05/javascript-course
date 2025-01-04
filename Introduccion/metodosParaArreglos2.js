@@ -3,7 +3,7 @@
   Si no hay elementos no retorna -1 
  */
 
-const colores = ["Rojo", 123, "Verde", "Azul"];
+const colores = ["Rosado", 123, "Verde", "Azul"];
 //console.log(colores.indexOf("Rojo"));
 
 /* .lastIndexOf()
@@ -22,7 +22,7 @@ colores.forEach((nombre, index) => {
  */
 
 colores.find((color) => {
-  //console.log(color);
+  console.log(color);
   //console.log(color[0])
 });
 

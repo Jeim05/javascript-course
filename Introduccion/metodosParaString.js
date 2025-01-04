@@ -2,15 +2,15 @@
 Devuelve el numero de caracteres de una cadena de texto
 */
 const texto = 'Hola, soy Jeimmy';
-console.log(texto.length());
+console.log(texto.length);
 
 /* .indexOf  .lastIndexOf() - Devuelve el index del primer/ultimo elemento
 */
 
-/* .slice() - Devuelve un fragmento de una cedena de texto  */
-const index = texto.indexOf('s');
-const lastIndex = texto.indexOf('s');
-consoloe.log(texto.slice(index, lastIndex));
+/* .slice() - Devuelve un fragmento de una cadena de texto  */
+const index = texto.indexOf('J');
+const lastIndex = texto.indexOf('m');
+console.log(texto.slice(index, lastIndex));
 
 /* .replace() - Devuelve una cadena de texto donde reemplaza un valor por otro
 1er parametro - el texto que queremos reemplazar

@@ -4,6 +4,8 @@ const colores = ["Rojo", "Verde", "Azul"];
    - Nos permite conocer la cantidad de elementos de un arreglo
 */
 
+console.log(colores.length)
+
 /* .toString()
    Nos permite transformar un arreglo a un texto.
    Por ejemplo para poder mostrarlo en el navegador
@@ -20,6 +22,8 @@ console.log(colores.join(" - "));
    En caso de que fueran numeros, tambien se pueden ordenar el menos al mayor
 */
 
+console.log(colores.sort())
+
 /* .reverse
  Nos permite ordenar un arreglo de forma descendente
  */
@@ -31,6 +35,7 @@ console.log(colores.join(" - "));
 /* .push()
  Nos permite agregar un elemento al final de un arreglo 
   */
+colores.push('Rosado')
 
 /* .pop()
  Nos permite eliminar el ultimo elemento de un arreglo 
