@@ -1,1 +1,1 @@
-{"version":3,"file":"bundle.js","sources":["../src/index.js"],"sourcesContent":["console.log('Index.js');\n"],"names":[],"mappings":";;AAAA,OAAO,CAAC,GAAG,CAAC,UAAU,CAAC;;"}
+{"version":3,"file":"bundle.js","sources":["../src/fetchPopulares.js","../src/index.js"],"sourcesContent":["const fetchPopulares = () =>{\r\n    fetch()\r\n\r\n}\r\n\r\nexport default fetchPopulares","import fetchPopulares from \"./fetchPopulares\";\n\nfetchPopulares()\n"],"names":[],"mappings":";;AAAA,MAAM,cAAc,GAAG,KAAK;AAC5B,IAAI,KAAK,GAAE;AACX;AACA;;ACDA,cAAc;;"}

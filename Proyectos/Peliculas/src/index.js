@@ -1,1 +1,3 @@
-console.log('Index.js');
+import fetchPopulares from "./fetchPopulares";
+
+fetchPopulares()

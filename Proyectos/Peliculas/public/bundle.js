@@ -1,4 +1,9 @@
 'use strict';
 
-console.log('Index.js');
+const fetchPopulares = () =>{
+    fetch();
+
+};
+
+fetchPopulares();
 //# sourceMappingURL=bundle.js.map
