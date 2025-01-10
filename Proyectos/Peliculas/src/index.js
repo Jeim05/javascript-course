@@ -1,3 +1,9 @@
+import cargarTitulos from "./cargarTitulos";
 import fetchPopulares from "./fetchPopulares";
 
-fetchPopulares()
+const cargar = async () =>{
+   const results = await fetchPopulares()
+   cargarTitulos(results);
+}
+
+cargar()
